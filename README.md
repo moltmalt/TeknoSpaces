@@ -1,4 +1,4 @@
-# TeknoSpaces
+# 📌 TeknoSpaces
 
 TeknoSpaces is a comprehensive online booking platform tailored exclusively for CIT-U students and faculty. Designed with the needs of our academic community in mind, TeknoSpaces streamlines the process of reserving classrooms, conference rooms, study areas, and other essential facilities on campus.
 
