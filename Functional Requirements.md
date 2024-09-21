@@ -31,7 +31,9 @@ Raised by: Tequillo
 Users have the option to log out of their account at any time.  
 Priority: Normal  
 Raised by: Tequillo
-
+<br>
+<br>
+<br>
 # 📌 Space Management
 The following includes a unique ID that starts with S (Space) for each requirement, the priority of each requirement, and the name of the person who is driving or is responsible for the requirement.
 
@@ -97,7 +99,9 @@ Raised by: Solon
 The system should automatically detect and prevent double bookings or schedule conflicts.  
 Priority: Urgent  
 Raised by: Solon
-
+<br>
+<br>
+<br>
 # 📌 Administrator Management
 
 The following table includes a unique ID that starts with A (Administrator) for each requirement, the priority of each requirement, and the name of the person who is driving or is responsible for the requirement.
