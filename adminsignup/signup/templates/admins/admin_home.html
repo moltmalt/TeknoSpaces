@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeknoSpaces - Home</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'src/home.css' %}">
+    
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                {% load static %}
+                <img src="{% static 'src/images/teknologo.png' %}" alt="TeknoSpaces Logo">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Spaces</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </nav>
+            
+        </div>
+    </header>
+
+    <!-- Main Banner -->
+    <section class="main-banner">
+        <h1>TEKNOSPACES</h1>
+        <p>FIND</p>
+        <div class="search-bar">
+            <input type="text" placeholder="Search for rooms, spaces, facilities...">
+            <button type="submit">
+                <img src="{% static 'images/search-icon.png' %}" alt="Search Icon">
+            </button>
+        </div>
+    </section>
+
+    <!-- Latest Available Spaces Section -->
+    <section class="latest-spaces">
+        <h2>Latest Available Spaces</h2>
+        <div class="spaces-grid">
+            <div class="space-card">
+                <img src="{% static 'images/placeholder.png' %}" alt="Space 1">
+                <p>Gymnasium</p>
+                <p>Saturday 10:30 AM - 12:30 PM</p>
+            </div>
+            <div class="space-card">
+                <img src="{% static 'images/placeholder.png' %}" alt="Space 2">
+                <p>GLE 502</p>
+                <p>Saturday 10:00 AM - 12:00 AM</p>
+            </div>
+            <!-- Add more space cards as needed -->
+        </div>
+    </section>
+
+    <!-- Featured Spaces Section -->
+    <section class="featured-spaces">
+        <h2>Featured Spaces</h2>
+        <div class="spaces-grid">
+            <div class="space-card">
+                <img src="{% static 'images/placeholder.png' %}" alt="Featured Space 1">
+                <p>Library Study Space 1</p>
+                <p>CIT-U Library</p>
+            </div>
+            <!-- Add more featured space cards -->
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="cta">
+        <h2>Browse For More Spaces</h2>
+        <p>Explore different spaces by their categories or types</p>
+        <button>Find a Space</button>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="{% static 'src/images/teknologo.png' %}"  alt="TeknoSpaces Logo">
+                <p>TeknoSpaces is a online booking platform for exclusively for CIT-U students and faculty to streamline reserving classrooms, conference rooms, study areas, and other facilities on campus.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Group</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact Info</h4>
+                <p>Phone: 1234567890</p>
+                <p>Email: teknospaces@gmail.com</p>
+                <p>Location: 100 Smart Street, LA, USA</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

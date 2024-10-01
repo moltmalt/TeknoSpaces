@@ -1,23 +1,22 @@
-# signup/views.py
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
-from .forms import AdminSignUpForm  # Import the form you just created
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
+from .forms import AdminSignUpForm  # Use this form consistently
 
 def admin_signup(request):
     if request.method == 'POST':
         form = AdminSignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('signup_success')
+            return redirect('signup_success')  # Redirect to sign-up success page
     else:
         form = AdminSignUpForm()
-    return render(request, 'signup/admin_signup.html', {'form': form})
+    return render(request, 'admins/admin_signup.html', {'form': form})
+
 
 def signup_success(request):
-    return render(request, 'signup/signup_success.html')
+    return render(request, 'admins/signup_success.html')
 
 def admin_login(request):
     if request.method == 'POST':
@@ -28,17 +27,19 @@ def admin_login(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('admin_home')  # Change to the actual admin homepage URL
+                return redirect('admin_home')
     else:
         form = AuthenticationForm()
-    return render(request, 'signup/admin_login.html', {'form': form})
+    return render(request, 'admins/admin_login.html', {'form': form})
 
-@login_required  # This decorator ensures that only logged-in users can access this view
+@login_required
 def admin_home(request):
-    return render(request, 'signup/admin_home.html')  # Point to your admin home template
-
+    return render(request, 'admins/admin_home.html')
 
 @login_required
 def admin_logout(request):
     logout(request)
-    return redirect('admin_login')  # Redirect to the login page after logout
+    return redirect('admin_login')
+
+def index(request):
+    return render(request, 'index.html')

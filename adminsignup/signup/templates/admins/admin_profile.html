@@ -1,0 +1,95 @@
+<!-- signup/templates/signup/admin_home.html
+<h2>Welcome to the Admin Dashboard</h2>
+<p>You are logged in as {{ user.username }}.</p> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeknoSpaces - Notifications</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'src/profile.css' %}">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                {% load static %}
+                <img src="{% static 'src/images/teknologo.png' %}" alt="TeknoSpaces Logo">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Spaces</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </nav>
+            <!-- <div class="profile-icon">
+                <img src="path/to/profile-icon.png" alt="Profile Icon">
+            </div> -->
+        </div>
+    </header>
+
+    <!-- Main Content Section -->
+    <main>
+        <div class="container">
+            <div class="profile">
+                <div class="profile-card">
+                    <img src="path/to/user-profile-icon.png" alt="User Profile">
+                    <h3>Arcelyn Tequillo</h3>
+                    <p>22-1234-5678</p>
+                    <p>College Of Computer Studies</p>
+                    <p>B.S. Computer Science - 3</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+                    <button>Edit Profile</button>
+                </div>
+            </div>
+            <div class="notifications">
+                <h2>All Notifications</h2>
+                <ul class="notification-list">
+                    <li>
+                        <p>Your space reservation in RTL 302 has been declined.</p>
+                        <span>14 Sept 2024</span>
+                        <button class="close-btn">&times;</button>
+                    </li>
+                    <li>
+                        <p>Your password has been successfully changed.</p>
+                        <span>12 Mar 2024</span>
+                        <button class="close-btn">&times;</button>
+                    </li>
+                    <li>
+                        <p>Your space reservation in GLE403 has been accepted.</p>
+                        <span>18 Dec 2024</span>
+                        <button class="close-btn">&times;</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="{% static 'src/images/teknologo.png' %}"  alt="TeknoSpaces Logo">
+                <p>TeknoSpaces is a online booking platform for exclusively for CIT-U students and faculty to streamline reserving classrooms, conference rooms, study areas, and other facilities on campus.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Group</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact Info</h4>
+                <p>Phone: 1234567890</p>
+                <p>Email: teknospaces@gmail.com</p>
+                <p>Location: 100 Smart Street, LA, USA</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
