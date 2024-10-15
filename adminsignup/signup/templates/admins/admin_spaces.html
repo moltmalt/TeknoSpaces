@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeknoSpaces - Add a New Space</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'src/profile.css' %}">
+    <link rel="icon" href="{% static 'src/images/logo.png' %}" type="image/icon type">
+
+    <style>
+        /* Flexbox layout for the full page */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Flex-grow to make the content stretch */
+        .container {
+            flex-grow: 1;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header, footer {
+            background-color: #4B0707;
+            color: white;
+            padding: 10px 20px;
+        }
+
+        /* Header */
+        header .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo img {
+            max-width: 150px;
+        }
+
+        header nav ul {
+            display: flex;
+            list-style: none;
+            padding: 0;
+        }
+
+        header nav ul li {
+            margin-left: 20px;
+        }
+
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Add Space Form */
+        .new-space-header {
+            display: flex;
+            flex-direction: column;
+            width: 100%;  /* Ensure the header takes up the full width */
+            margin-bottom: 20px;  /* Space below the title and admin name */
+        }
+
+        h1.new-space-title {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .admin-name {
+            font-size: 1.2em;
+            color: gray;
+            margin-bottom: 20px;
+            font-weight: 500;
+            width: 100%;
+        }
+
+        form input, form textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        textarea {
+            height: 150px;
+        }
+
+        /* Image upload area */
+        .image-upload {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .image-box {
+            width: 200px;
+            height: 200px;
+            background-color: #eaeaea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+        }
+
+        /* Buttons */
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .cancel-btn, .create-btn {
+            padding: 12px 40px;
+            border-radius: 30px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .cancel-btn {
+            background-color: #f4f4f4;
+            color: #333;
+            border: 1px solid #ccc;
+        }
+
+        .create-btn {
+            background-color: #4B0707;
+            color: white;
+        }
+
+        /* Footer */
+        footer .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        footer .footer-content .footer-logo img {
+            max-width: 120px;
+        }
+
+        footer .footer-content p {
+            color: #ccc;
+        }
+
+        footer .footer-content h4 {
+            color: #fff;
+        }
+
+        footer ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        footer ul li a {
+            color: #ccc;
+            text-decoration: none;
+        }
+        .facility-checkbox {
+            display: flex; /* Use flexbox to align items inline */
+            gap: 20px; /* Space between checkboxes */
+            margin-top: 10px; /* Optional: Space above the checkbox section */
+        }
+
+        .facility-checkbox label {
+            display: flex; /* This ensures the checkbox and text are aligned */
+            align-items: center; /* Centers the checkbox with the text */
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <img src="{% static 'src/images/teknologo.png' %}" alt="TeknoSpaces Logo">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'admin_home' %}">Home</a></li>
+                    <li><a href="{% url 'admin_spaces' %}">Spaces</a></li>
+                    <li><a href="{% url 'admin_profile' %}">Profile</a></li>
+                    <li><a href="{% url 'admin_login' %}">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Section -->
+    <!-- <div class="container">
+        <div class="new-space-header">
+            <h1 class="new-space-title">Add a New Space</h1>
+            <p class="admin-name">Admin: {{ request.user.first_name }} {{ request.user.last_name }}</p> 
+            <hr>
+        </div>
+        
+        <form action="#" method="post">
+            <h3>Space Title</h3>
+            <input type="text" name="space_title" placeholder="Space Title" required>
+            <h3>Description</h3>
+            <textarea name="description" placeholder="Description"></textarea>
+            <h3>Location</h3>
+            <input type="text" name="location" placeholder="Location" required>
+            <h3>Duration</h3>
+            <input type="text" name="duration" placeholder="Duration" required>
+            <div class="date-range">
+                <h3>Available From:</h3>
+                <input type="date" id="from_date" name="from_date" required>
+        
+                <h3>Until:</h3>
+                <input type="date" id="to_date" name="to_date" required>
+            </div>
+            <h3>Seating Capacity</h3>
+            <input type="number" name="seating_capacity" placeholder="Seating Capacity" required min="1">
+            <h3>Facilities</h3>
+            <div class="facility-checkbox">
+                <label>
+                    <input type="checkbox" name="has_air_conditioner"> Has Air Conditioner?
+                </label>
+                <label>
+                    <input type="checkbox" name="has_internet"> Has Internet?
+                </label>
+                <label>
+                    <input type="checkbox" name="has_television"> Has Television?
+                </label>
+            </div>
+            
+            <br>
+            <div class="image-upload">
+                <div class="image-box">+ Add Photo</div>
+                <div class="image-box">+ Add Photo</div>
+                <div class="image-box">+2 More Photos</div>
+            </div>
+
+            <div class="buttons">
+                <button type="button" class="cancel-btn">Cancel</button>
+                <button type="submit" class="create-btn">Create</button>
+            </div>
+        </form>
+    </div> -->
+
+    <div class="container">
+        <div class="new-space-header">
+            <h1 class="new-space-title">Add a New Space</h1>
+            <p class="admin-name">Admin: {{ request.user.first_name }} {{ request.user.last_name }}</p> 
+            <hr>
+        </div>
+        
+        <form action="" method="post">  <!-- Form action remains empty to post to the current view -->
+            {% csrf_token %}  <!-- Add CSRF token for security -->
+            <!-- Django form fields -->
+            {{ form.as_p }}  <!-- This will render all form fields using paragraph tags -->
+            
+            <div class="buttons">
+                <button type="button" class="cancel-btn">Cancel</button>
+                <button type="submit" class="create-btn">Create</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="{% static 'src/images/teknologo.png' %}" alt="TeknoSpaces Logo">
+                <p>TeknoSpaces is an online booking platform exclusively for CIT-U students and faculty to streamline reserving classrooms, conference rooms, study areas, and other facilities on campus.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Group</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact Info</h4>
+                <p>Phone: 1234567890</p>
+                <p>Email: teknospaces@gmail.com</p>
+                <p>Location: 100 Smart Street, LA, USA</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

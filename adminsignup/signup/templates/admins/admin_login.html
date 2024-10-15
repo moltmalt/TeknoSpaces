@@ -7,6 +7,7 @@
     <title>Admin Log In</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'src/input.css' %}">
+    <link rel="icon" href="{% static 'src/images/logo.png' %}" type="image/icon type">
 </head>
 <body>
     <div class="form-container">
@@ -16,6 +17,7 @@
             {{ form.as_p }}
             <button type="submit" class="submit-btn">Log In</button>
         </form>
+        <a href="{% url 'admin_signup' %}">Signup</a>
     </div>
 </body>
 </html>

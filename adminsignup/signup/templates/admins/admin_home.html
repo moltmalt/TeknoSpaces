@@ -6,7 +6,7 @@
     <title>TeknoSpaces - Home</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'src/home.css' %}">
-    
+    <link rel="icon" href="{% static 'src/images/logo.png' %}" type="image/icon type">
 </head>
 <body>
 
@@ -19,10 +19,10 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Spaces</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="{% url 'admin_home' %}">Home</a></li>
+                    <li><a href="{% url 'admin_spaces' %}">Spaces</a></li>
+                    
+                    <li><a href="{% url 'admin_profile' %}">Profile</a></li>
                 </ul>
             </nav>
             
@@ -42,7 +42,7 @@
     </section>
 
     <!-- Latest Available Spaces Section -->
-    <section class="latest-spaces">
+    <!-- <section class="latest-spaces">
         <h2>Latest Available Spaces</h2>
         <div class="spaces-grid">
             <div class="space-card">
@@ -55,29 +55,37 @@
                 <p>GLE 502</p>
                 <p>Saturday 10:00 AM - 12:00 AM</p>
             </div>
-            <!-- Add more space cards as needed -->
         </div>
-    </section>
+    </section> -->
+    
 
     <!-- Featured Spaces Section -->
     <section class="featured-spaces">
         <h2>Featured Spaces</h2>
         <div class="spaces-grid">
+            {% for space in spaces %}
             <div class="space-card">
-                <img src="{% static 'images/placeholder.png' %}" alt="Featured Space 1">
-                <p>Library Study Space 1</p>
-                <p>CIT-U Library</p>
+                <!-- You can add dynamic images later if necessary -->
+                <img src="{% static 'images/placeholder.png' %}" alt="{{ space.space_title }}">
+                <p>{{ space.space_title }}</p> <!-- Title -->
+                <p>{{ space.description }}</p> <!-- Description -->
+                <p>{{ space.location }}</p> <!-- Location -->
+                <p>{{ space.from_date }} - {{ space.to_date }}</p> <!-- Date Range -->
+                <p>Added by: {{ space.added_by.first_name }} {{ space.added_by.last_name }}</p>
             </div>
-            <!-- Add more featured space cards -->
+            {% empty %}
+            <p>No spaces available at the moment.</p>
+            {% endfor %}
         </div>
     </section>
 
+
     <!-- Call to Action Section -->
-    <section class="cta">
+    <!-- <section class="cta">
         <h2>Browse For More Spaces</h2>
         <p>Explore different spaces by their categories or types</p>
         <button>Find a Space</button>
-    </section>
+    </section> -->
 
     <!-- Footer Section -->
     <footer>

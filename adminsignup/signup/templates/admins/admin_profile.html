@@ -6,9 +6,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TeknoSpaces - Notifications</title>
+    <title>TeknoSpaces - Profile</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'src/profile.css' %}">
+    <link rel="icon" href="{% static 'src/images/logo.png' %}" type="image/icon type">
+    <style>
+        /* Basic styles for the modal */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <!-- Header Section -->
@@ -20,10 +58,11 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Spaces</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="{% url 'admin_home' %}">Home</a></li>
+                    <li><a href="{% url 'admin_spaces' %}">Spaces</a></li>
+                   
+                    <li><a href="{% url 'admin_profile' %}">Profile</a></li>
+                    <li><a href="{% url 'admin_login' %}">Logout</a></li>
                 </ul>
             </nav>
             <!-- <div class="profile-icon">
@@ -37,15 +76,13 @@
         <div class="container">
             <div class="profile">
                 <div class="profile-card">
-                    <img src="path/to/user-profile-icon.png" alt="User Profile">
-                    <h3>Arcelyn Tequillo</h3>
-                    <p>22-1234-5678</p>
-                    <p>College Of Computer Studies</p>
-                    <p>B.S. Computer Science - 3</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
-                    <button>Edit Profile</button>
+                    <img src="{% static 'src/images/empty-dp.png' %}" alt="User Profile">
+                    <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+                    <p>{{ user.username }}</p>
+                    <button id="editProfileBtn">Edit Profile</button>
                 </div>
             </div>
+            
             <div class="notifications">
                 <h2>All Notifications</h2>
                 <ul class="notification-list">
@@ -54,7 +91,7 @@
                         <span>14 Sept 2024</span>
                         <button class="close-btn">&times;</button>
                     </li>
-                    <li>
+                    <!-- <li>
                         <p>Your password has been successfully changed.</p>
                         <span>12 Mar 2024</span>
                         <button class="close-btn">&times;</button>
@@ -63,12 +100,32 @@
                         <p>Your space reservation in GLE403 has been accepted.</p>
                         <span>18 Dec 2024</span>
                         <button class="close-btn">&times;</button>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>
     </main>
 
+
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit Profile</h2>
+            <form id="editProfileForm" method="POST" action="{% url 'edit_admin_profile' %}">
+                {% csrf_token %}
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" value="{{ user.username }}" required>
+                <br>
+                <label for="first_name">First Name:</label>
+                <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" required>
+                <br>
+                <label for="last_name">Last Name:</label>
+                <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" required>
+                <br>
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
     <!-- Footer Section -->
     <footer>
         <div class="footer-content">
@@ -91,5 +148,32 @@
             </div>
         </div>
     </footer>
+    <script>
+        // Get the modal
+        var modal = document.getElementById("editProfileModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("editProfileBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
