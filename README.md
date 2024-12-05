@@ -79,3 +79,7 @@
 <h3 align="left">Members</h3>
 
 ###
+
+<h5 align="left">Malt Solon<br>Paul Abellana<br>Arcelyn Tequillo</h5>
+
+###
