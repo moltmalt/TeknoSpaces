@@ -1,0 +1,73 @@
+<style>
+    footer {
+        background-color: #4B0707;
+        color: white;
+        padding: 40px 0;
+        text-align: left;
+    }
+
+    .footer-content {
+        width: 90%;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        gap: 20px; 
+    }
+
+    .footer-logo, .footer-links, .footer-contact {
+        flex: 1;
+        padding: 0 20px; 
+    }
+
+    .footer-logo p {
+        font-size: 14px;
+        margin-top: 10px;
+        line-height: 1.5;
+    }
+
+    .footer-links h4,
+    .footer-contact h4 {
+        margin-bottom: 15px;
+    }
+
+    .footer-links ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .footer-links ul li {
+        margin-bottom: 10px;
+    }
+
+    .footer-links ul li a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .footer-contact p {
+        margin-bottom: 10px;
+    }
+</style>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-logo">
+            {% load static %} 
+            <img src="{% static 'src/images/teknologo.png' %}" alt="TeknoSpaces Logo">
+            <p>TeknoSpaces is an online booking platform for CIT-U students and faculty to streamline reserving classrooms, conference rooms, study areas, and other facilities on campus.</p>
+        </div>
+        <div class="footer-links">
+            <ul>
+                <li><h4>Group</h4></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </div>
+        <div class="footer-contact">
+            <h4>Contact Info</h4>
+            <p>Phone: 1234567890</p>
+            <p>Email: teknospaces@gmail.com</p>
+            <p>Location: CIT-U Campus, Cebu City, Philippines</p>
+        </div>
+    </div>
+</footer>

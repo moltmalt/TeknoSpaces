@@ -1,0 +1,55 @@
+<style>
+    header {
+        background-color: #4B0707;
+        padding: 15px 0;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 90%;
+        margin: auto;
+    }
+
+    .logo img {
+        width: 150px;
+    }
+
+    nav ul {
+        display: flex;
+        list-style: none;
+    }
+
+    nav ul li {
+        margin: 0 20px;
+    }
+
+    nav ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+    }
+
+    .profile-icon img {
+        width: 40px;
+    }
+
+</style>
+<header>
+    <div class="navbar">
+        <div class="logo">
+            {% load static %}
+            <img src="{% static 'src/images/teknologo.png' %}" alt="TeknoSpaces Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'user_home' %}">Home</a></li>
+                <li><a href="{% url 'user_reservation' %}">Reserved Spaces</a></li>
+                <li><a href="{% url 'user_profile' %}">Profile</a></li>
+                <li><a href="{% url 'login' %}">Logout</a></li>
+            </ul>
+        </nav>
+        
+    </div>
+</header>

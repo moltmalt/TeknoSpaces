@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeknoSpaces - Home</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'src/home.css' %}">
+    <link rel="icon" href="{% static 'src/images/logo.png' %}" type="image/icon type">
+    <style>
+        .small-button {
+            padding: 1px; 
+            border: none; 
+            background-color: transparent;
+        }
+
+        .small-button .small-icon {
+            width: 40px; 
+            height: 40px; 
+        }
+        .modal {
+            display: none; 
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); 
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+        }
+        .modal {
+            visibility: hidden; 
+            opacity: 0;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: visibility 0s, opacity 0.3s ease; 
+        }
+        .modal.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 40%;
+            max-width: 500px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+        }
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .modal-content input[type="text"],
+        .modal-content input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .modal-content button {
+            padding: 10px 20px;
+            background-color: #4CAF50; 
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .modal-content button:hover {
+            background-color: #45a049;
+        }
+
+
+        .space-card button {
+            margin-top: 15px;
+            padding: 10px 15px;
+            background-color: #4B0707;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    {% load static %}
+    {% include 'uheader.html' %}
+
+    <!-- Main Banner -->
+    <section class="main-banner">
+        <h1>TEKNOSPACES</h1>
+        <p>FIND</p>
+        <div class="search-bar">
+            <input type="text" placeholder="Search for rooms, spaces, facilities...">
+            <button type="submit" class="small-button">
+                <img src="{% static 'src/images/search.png' %}"  alt="Search Icon" class="small-icon">
+            </button>
+        </div>
+    </section>
+    <!-- Featured Spaces Section -->
+    <section class="featured-spaces">
+        <h2>Featured Spaces</h2>
+        <div class="spaces-grid">
+            {% for space in spaces %}
+            <div class="space-card">
+                <!-- <img src="{% static 'images/placeholder.png' %}" alt="{{ space.space_title }}"> -->
+                <h2>{{ space.space_title }}</h2> <!-- Title -->
+                <p>{{ space.description }}</p> <!-- Description -->
+                <p>{{ space.location }}</p> <!-- Location -->
+                <!-- <p>{{ space.price }}</p> -->
+                <p>{{ space.from_date }} - {{ space.to_date }}</p> <!-- Date Range -->
+                <p>Added by: {{ space.added_by.first_name }} {{ space.added_by.last_name }}</p>
+                <!-- Reserve Button -->
+                <button type="button" class="reserve-button" onclick="openModal('{{ space.space_title }}', '{{ space.description }}', '{{ space.location }}', '{{ space.id }}')">Reserve</button>
+
+            </div>
+            {% empty %}
+            <p>No spaces available at the moment.</p>
+            {% endfor %}
+        </div>
+    </section>
+    <!-- Reservation Modal -->
+    <div id="reservationModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Reserve Space</h2>
+            <p id="modal-space-title"></p>
+            <p id="modal-space-description"></p>
+            <p id="modal-space-location"></p>
+            
+            <form method="POST" action="{% url 'reserve_space' %}">
+                {% csrf_token %}
+                <input type="hidden" id="space_id" name="space_id" value="">
+                
+                <label for="start_time">Start Time:</label>
+                <input type="time" id="start_time" name="start_time" required>
+                
+                <label for="end_time">End Time:</label>
+                <input type="time" id="end_time" name="end_time" required>
+                
+                <button type="submit">Confirm Reservation</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Function to open modal and set details
+        function openModal(title, description, location, spaceId) {
+            document.getElementById('modal-space-title').textContent = title;
+            document.getElementById('modal-space-description').textContent = description;
+            document.getElementById('modal-space-location').textContent = location;
+            document.getElementById('space_id').value = spaceId;
+            
+            document.getElementById('reservationModal').classList.add('show');
+        }
+
+        // Function to close modal
+        function closeModal() {
+            document.getElementById('reservationModal').classList.remove('show');
+        }
+    </script>
+    {% load static %} 
+    {% include 'footer.html' %}
+
+
+</body>
+</html>

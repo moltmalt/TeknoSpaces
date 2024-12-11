@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeknoSpaces - Profile</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'src/profile.css' %}">
+    <link rel="icon" href="{% static 'src/images/logo.png' %}" type="image/icon type">
+    <style>
+        .container {
+            flex-grow: 1;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tab {
+            display: inline-block;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 5px;
+            background-color: #f1f1f1;
+        }
+
+        .tab.active {
+            background-color: #ffffff; 
+            font-weight: bold;
+        }
+
+        .reservation-section {
+            display: none;
+        }
+
+        .reservation-section.active {
+            display: block; 
+        }
+
+   
+        .pending-reservations, .accepted-reservations, .rejected-reservations , .cancelled-reservations{
+            list-style-type: none; 
+            padding: 0; 
+        }
+
+        .pending-reservations li,
+        .accepted-reservations li,
+        .rejected-reservations li,
+        .cancelled-reservations li{
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 10px;
+            border: 1px solid #ddd; 
+            border-radius: 5px; 
+            margin-bottom: 10px; 
+            background-color: #f9f9f9; 
+        }
+
+        /* Button Styles */
+        .approve-button, .decline-button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 5px; 
+            transition: background-color 0.3s; 
+        }
+
+        .approve-button {
+            background-color: #4CAF50; 
+            color: white;
+        }
+
+        .approve-button:hover {
+            background-color: #45a049; 
+        }
+
+        .decline-button {
+            background-color: #f44336; 
+            color: white;
+        }
+
+        .decline-button:hover {
+            background-color: #d32f2f; 
+        }
+        .reservation-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px; 
+        }
+        .reservation-card:hover {
+            transform: translateY(-2px); 
+        }
+
+        .button-group {
+            margin-top: 10px; 
+        }
+      
+
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    {% include 'header.html' %}
+
+    <!-- Main Content Section -->
+    <main>
+        <div class="container" style = "display:block;">
+            <div class="notifications">
+                <div class="new-space-header">
+                    <h1 class="new-space-title">Reservations</h1>
+                    <p class="admin-name">Admin: {{ request.user.first_name }} {{ request.user.last_name }}</p>
+                    <hr>
+                </div>
+
+                <!-- Tab Navigation -->
+                <div class="tabs">
+                    <div class="tab active" onclick="showSection('pending')">Pending</div>
+                    <div class="tab" onclick="showSection('accepted')">Accepted</div>
+                    <div class="tab" onclick="showSection('rejected')">Rejected</div>
+                    <div class="tab" onclick="showSection('cancelled')">Cancelled</div>
+                </div>
+
+                <!-- Pending Reservations Section -->
+                <div id="pending" class="reservation-section active">
+                    <ul class="pending-reservations">
+                        {% for reservation in pending_reservations %}
+                        <li class="reservation-list" style = "display: flex; flex-direction: row;" >
+                            <div>
+                                <p>{{ reservation.user.first_name }} {{ reservation.user.last_name }} has reserved {{ reservation.space.space_title }}.</p>
+                            </div>
+                            <div>
+                                <form method="POST" action="{% url 'approve_reservation' reservation.id %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="approve-button">Approve</button>
+                                </form>
+                                <form method="POST" action="{% url 'decline_reservation' reservation.id %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="decline-button">Decline</button>
+                                </form>
+                            </div>
+                            
+
+                        </li>
+                        {% empty %}
+                        <li>No pending reservations.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Accepted Reservations Section -->
+                <div id="accepted" class="reservation-section">
+                    <ul class="accepted-reservations">
+                        {% for reservation in approved_reservations %}
+                        <li>
+                            <p>{{ reservation.user.first_name }} {{ reservation.user.last_name }}'s reservation for {{ reservation.space.space_title }} has been accepted.</p>
+                            <form method="POST" action="{% url 'cancel_reservation' reservation.id %}" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="decline-button">Cancel Reservation</button>
+                            </form>
+                        </li>
+                        {% empty %}
+                        <li>No approved reservations.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Rejected Reservations Section -->
+                <div id="rejected" class="reservation-section">
+                    <ul class="rejected-reservations">
+                        {% for reservation in declined_reservations %}
+                        <li>
+                            <p>{{ reservation.user.first_name }} {{ reservation.user.last_name }}'s reservation for {{ reservation.space.space_title }} has been rejected.</p>
+                        </li>
+                        {% empty %}
+                        <li>No declined reservations.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <!-- Cancelled Reservations Section -->
+                <div id="cancelled" class="reservation-section">
+                    <ul class="cancelled-reservations">
+                        {% for reservation in cancelled_reservations %}
+                        <li>
+                            <p>{{ reservation.user.first_name }} {{ reservation.user.last_name }}'s reservation for {{ reservation.space.space_title }} has been cancelled.</p>
+                        </li>
+                        {% empty %}
+                        <li>No cancelled reservations.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <br><br><br><br><br><br><br><br>
+    </main>
+
+    <script>
+        function showSection(section) {
+            const sections = document.querySelectorAll('.reservation-section');
+            const tabs = document.querySelectorAll('.tab');
+
+            // Hide all sections and remove active class from tabs
+            sections.forEach(sec => sec.classList.remove('active'));
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            // Show the selected section and add active class to the corresponding tab
+            document.getElementById(section).classList.add('active');
+            const activeTab = Array.from(tabs).find(tab => tab.innerText.toLowerCase() === section);
+            if (activeTab) {
+                activeTab.classList.add('active');
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const messagePopup = document.getElementById('message-popup');
+            if (messagePopup) {
+                messagePopup.style.display = 'block'; 
+
+                setTimeout(function() {
+                    messagePopup.style.opacity = '0'; 
+                    setTimeout(function() {
+                        messagePopup.style.display = 'none'; 
+                    }, 500); 
+                }, 5000); 
+            }
+        });
+    </script>
+    
+    {% include 'footer.html' %}
+</body>
+</html>

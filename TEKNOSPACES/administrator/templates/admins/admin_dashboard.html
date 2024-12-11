@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeknoSpaces - Dashboard</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'src/profile.css' %}">
+    <link rel="icon" href="{% static 'src/images/logo.png' %}" type="image/icon type">
+    <style>
+        table {
+            width: 100%;
+            /* border-collapse: collapse; */
+            margin-top: 0px;
+            border: solid 2px black;
+        }
+
+        th, td {
+            padding: 12px 8px;
+            text-align: left;
+            border: 1px solid #000000;
+        }
+
+        th {
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            font-weight: bold;
+            text-align: center;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover td {
+            background-color: #f1f1f1;
+        }
+        .modal {
+            visibility: hidden; 
+            opacity: 0;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); 
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+            transition: visibility 0s, opacity 0.3s ease; 
+        }
+        .modal.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 40%;
+            max-width: 500px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+        }
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .modal-content input[type="text"],
+        .modal-content input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .modal-content button {
+            padding: 10px 20px;
+            background-color: #4CAF50; 
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .modal-content button:hover {
+            background-color: #45a049;
+        }
+        
+        .new-space-header {
+            display: flex;
+            flex-direction: column;
+            width: 100%;  
+        }
+
+        h1.new-space-title {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .admin-name {
+            font-size: 1.2em;
+            color: gray;
+            font-weight: 500;
+            width: 100%;
+        }
+        .message-popup {
+            position: fixed;
+            top: 20px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            z-index: 1000;
+            display: none; 
+            text-align: center;
+        }
+
+        .message {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            animation: fadeIn 0.5s ease-in-out; 
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        /* .status-btn {
+            background-color: #4CAF50; 
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }*/
+        .button-group {
+            margin-top: 1px; 
+        }
+
+        .edit-btn,
+        .status-btn {
+            padding: 8px 12px;
+            border: solid 2px black;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .edit-btn {
+            background-color: #DD9E39; 
+            color: white;
+            border: solid 2px black;
+
+        }
+        .status-btn {
+            background-color: #45a049; 
+            color: white;
+            border: solid 2px black;
+
+        }
+        .edit-btn:hover {
+            background-color: #DD9E39; 
+            border: solid 2px black;
+
+        }
+            
+        .status-btn:hover {
+            background-color: #cdcdcd; 
+            color: #000000;
+            border: solid 2px black;
+
+        }
+
+        .status-btn.deactivate {
+            background-color: #4B0707;
+            border: solid 2px black;
+ 
+        }
+
+        .status-btn.deactivate:hover {
+            background-color: #cdcdcd; 
+            color: #000000;
+            border: solid 2px black;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    {% load static %}
+    {% include 'header.html' %}
+
+    <!-- Main Content Section -->
+    <main>
+        <div class = "container">
+            <div class="new-space-header">
+                <h1 class="new-space-title">All Users</h1>
+                <p class="admin-name">Admin: {{ request.user.first_name }} {{ request.user.last_name }}</p> 
+            </div>
+            {% if messages %}
+                <div id="message-popup" class="message-popup">
+                    {% for message in messages %}
+                        <div class="message {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            {% if user.is_active %}
+                                Active
+                            {% else %}
+                                Inactive
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="button-group">    
+                                <button id="editProfileBtn" class="edit-btn" style="display:inline;">Edit</button>
+                                <form method="POST" action="{% url 'toggle_user_status' user.id %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="status-btn {% if user.is_active %}deactivate{% endif %}">
+                                        {% if user.is_active %}Deactivate{% else %}Activate{% endif %}
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">No regular users found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    {% load static %}
+    {% include 'footer.html' %}
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit Profile</h2>
+            <form method="POST" action="{% url 'edit_user_from_admin_dashboard' %}" id="editProfileForm">
+                {% csrf_token %}
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" value="{{ user.username }}" required>
+                <br>
+                <label for="first_name">First Name:</label>
+                <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" required>
+                <br>
+                <label for="last_name">Last Name:</label>
+                <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" required>
+                <br>
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const messagePopup = document.getElementById('message-popup');
+            if (messagePopup) {
+                messagePopup.style.display = 'block'; 
+        
+                setTimeout(function() {
+                    messagePopup.style.opacity = '0'; 
+                    setTimeout(function() {
+                        messagePopup.style.display = 'none'; 
+                    }, 500); 
+                }, 5000); 
+            }
+        });
+    </script>
+    <script>
+        // Get the modal
+        var modal = document.getElementById("editProfileModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("editProfileBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal
+        btn.onclick = function() {
+            modal.classList.add("show"); // Add 'show' class to display modal
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.classList.remove("show"); // Remove 'show' class to hide modal
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.classList.remove("show");
+            }
+        }
+    </script>
+</body>
+</html>
