@@ -2,7 +2,7 @@
 
 ###
 
-<h5 align="center">TeknoSpaces is a comprehensive online booking platform tailored exclusively for CIT-U students and faculty.</h5>
+<h5 align="center">TeknoSpaces is a comprehensive online event booking platform tailored exclusively for CIT-U students and faculty.</h5>
 
 ###
 
