@@ -1,0 +1,42 @@
+Suggested Categories:
+
+	1.	Study Spaces
+        •	Library Study Rooms
+        •	Group Study Rooms
+
+	2.	Sports and Recreation
+	•	Gym Facilities
+        •	Sports Courts (Basketball, Tennis, etc.)
+        •	Swimming Pool
+        •	Fitness Classes
+
+	3.	Event Spaces
+        •	Function Halls
+        •	Auditoriums
+        •	Seminar Rooms
+        •	Outdoor Event Areas
+
+	4.	Meeting Rooms
+        •	Conference Rooms
+        •	Meeting Pods
+        •	Collaborative Spaces
+
+	5.	Specialty Facilities
+        •	Laboratories (Science, Computer, etc.)
+        •	Art Studios
+        •	Music Rooms
+        •	Dance Studios
+
+	6.	Tech and Innovation
+        •	Makerspaces
+        •	Innovation Hubs
+        •	Computer Labs
+
+	7.	Dining and Leisure
+        •	Cafeterias
+        •	Lounges
+        •	Relaxation Zones
+
+	8.	Administrative Spaces
+        •	Administrative Offices
+        •	Counseling and Support Services

@@ -1,0 +1,161 @@
+{% extends 'core/base_no_footer.html' %}
+
+{% block content %}
+<div class=" bg-gray-100 flex justify-center px-4 sm:px-6 lg:px-8">
+    <div class="w-full max-w-2xl">
+        <div class="bg-white shadow-2xl rounded-2xl overflow-hidden mt-4">
+            <!-- Header with bg-red-900 -->
+            <div class="bg-red-800 p-6">
+                <h2 class="text-3xl font-extrabold text-white text-center flex items-center justify-center gap-4">
+                    Editing {{ space.title }}
+                </h2>
+                <p class="text-center text-red-100 mt-2">Update space details</p>
+            </div>
+
+            <form method="post" action="." enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="p-8 space-y-8 max-h-[400px] overflow-y-auto">
+                    <!-- Images Section -->
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-4 border-b pb-4">
+                            <h3 class="text-xl font-semibold text-gray-800">Upload Images</h3>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {% for field in form %}
+                                {% if "image" in field.name %}
+                                    <div class="space-y-2">
+                                        <label class="block text-lg font-medium text-gray-700">{{ field.label }}</label>
+                                        <div class="relative">
+                                            <input type="file" id="{{ field.id_for_label }}" name="{{ field.name }}" class="file-input hidden">
+                                            <label for="{{ field.id_for_label }}" class="bg-gray-200 text-gray-700 rounded-md px-4 py-2 cursor-pointer text-sm font-semibold border border-gray-400 hover:bg-gray-300 transition duration-300 ease-in-out hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                                                Choose File
+                                            </label>
+                                            {% if field.value %}
+                                                <div class="mt-2 text-sm text-gray-500" id="file-name-{{ field.id_for_label }}">{{ field.value.name }}</div>
+                                            {% else %}
+                                                <div class="mt-2 text-sm text-gray-500" id="file-name-{{ field.id_for_label }}">No file selected</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Details Section -->
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-4 border-b pb-4">
+                            <h3 class="text-xl font-semibold text-gray-800">Space Details</h3>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="relative">
+                                <label class="block text-sm font-medium text-gray-700">{{ form.title.label_tag }}</label>
+                                {{ form.title }}
+                            </div>
+                            <div class="relative">
+                                <label class="block text-sm font-medium text-gray-700">{{ form.price.label_tag }}</label>
+                                {{ form.price }}
+                            </div>
+                            <div class="md:col-span-2 relative">
+                                <label class="block text-sm font-medium text-gray-700">{{ form.description.label_tag }}</label>
+                                {{ form.description }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Features Section -->
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-4 border-b pb-4">
+                            <h3 class="text-xl font-semibold text-gray-800">Space Features</h3>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="relative">
+                                <label class="block text-sm font-medium text-gray-700">{{ form.venue.label_tag }}</label>
+                                {{ form.venue }}
+                            </div>
+                            <div class="relative">
+                                <label class="block text-sm font-medium text-gray-700">{{ form.seating_capacity.label_tag }}</label>
+                                {{ form.seating_capacity }}
+                            </div>
+                            <div class="md:col-span-2 space-y-4 relative">
+                                <div class="flex items-center">
+                                    {{ form.hasAirConditioner }}
+                                    <label class="ml-3 block text-sm font-medium text-gray-700">{{ form.hasAirConditioner.label_tag }}</label>
+                                </div>
+                                <div class="flex items-center">
+                                    {{ form.hasInternet }}
+                                    <label class="ml-3 block text-sm font-medium text-gray-700">{{ form.hasInternet.label_tag }}</label>
+                                </div>
+                                <div class="flex items-center">
+                                    {{ form.hasTelevision }}
+                                    <label class="ml-3 block text-sm font-medium text-gray-700">{{ form.hasTelevision.label_tag }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Fields Section -->
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-4 border-b pb-4">
+                            <h3 class="text-xl font-semibold text-gray-800">Additional Details</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="relative">
+                                <label class="block text-sm font-medium text-gray-700">{{ form.category.label_tag }}</label>
+                                {{ form.category }}
+                            </div>
+                            <div class="relative">
+                                <label class="block text-sm font-medium text-gray-700">{{ form.type.label_tag }}</label>
+                                {{ form.type }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Details Section -->
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-4 border-b pb-4">
+                            <h3 class="text-xl font-semibold text-gray-800">Booking</h3>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="relative">
+                                <label class="block text-sm font-medium text-gray-700">{{ form.managed_by.label_tag }}</label>
+                                {{ form.managed_by }}
+                            </div>
+                            <div class="relative">
+                                <label class="block text-sm font-medium text-gray-700">{{ form.booked_by.label_tag }}</label>
+                                {{ form.booked_by }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Error Messages -->
+                    {% if form.errors %}
+                        <div class="pt-4">
+                            <div class="flex items-center text-red-600">
+                                <p>Please correct the errors below and resubmit the form:</p>
+                            </div>
+                            <ul class="mt-2 text-red-600 space-y-1 list-disc list-inside">
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <li>{{ field.label }}: {{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Submit Button -->
+                <div class="p-6 bg-gray-100 border-t">
+                    <button type="submit" class="w-full flex justify-center py-3 px-6 border border-transparent text-base font-medium rounded-md text-white bg-red-800 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-300 ease-in-out">
+                        Edit Space
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

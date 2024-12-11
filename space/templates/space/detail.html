@@ -1,0 +1,298 @@
+{% extends 'space/base.html' %}
+{% load static %}
+
+{% block title %}{{ space.name }}{% endblock %}
+
+{% block content %}
+<div class="px-10 py-12 pt-[95px]" style="padding-left: 40px; padding-right: 40px;">
+    <div class="grid grid-cols-6 md:grid-cols-6 gap-4 mb-8">
+        <div class="md:col-span-4">  
+            <div class="swiper rounded-xl shadow-lg overflow-hidden" style="width: 100%; height: 455px;">
+                <div class="swiper-wrapper">
+                    {% if space.main_image %}
+                    <div class="swiper-slide">
+                        <img src="{{ space.main_image.url }}" alt="Main image" class="w-full h-full object-cover">
+                    </div>
+                    {% endif %}
+                    {% if space.second_image %}
+                    <div class="swiper-slide">
+                        <img src="{{ space.second_image.url }}" alt="Second image" class="w-full h-full object-cover">
+                    </div>
+                    {% endif %}
+                    {% if space.third_image %}
+                    <div class="swiper-slide">
+                        <img src="{{ space.third_image.url }}" alt="Third image" class="w-full h-full object-cover">
+                    </div>
+                    {% endif %}
+                    {% if space.fourth_image %}
+                    <div class="swiper-slide">
+                        <img src="{{ space.fourth_image.url }}" alt="Fourth image" class="w-full h-full object-cover">
+                    </div>
+                    {% endif %}
+                    {% if space.fifth_image %}
+                    <div class="swiper-slide">
+                        <img src="{{ space.fifth_image.url }}" alt="Fifth image" class="w-full h-full object-cover">
+                    </div>
+                    {% endif %}
+                    {% if space.sixth_image %}
+                    <div class="swiper-slide">
+                        <img src="{{ space.sixth_image.url }}" alt="Sixth image" class="w-full h-full object-cover">
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+
+        <div class="md:col-span-2" style="padding: 0;">
+            <div class="thumbnail-grid" style="margin: 0">
+                {% if space.main_image %}
+                <div class="thumbnail">
+                    <img src="{{ space.main_image.url }}" alt="Thumbnail 1" class="thumbnail-img">
+                </div>
+                {% endif %}
+                {% if space.second_image %}
+                <div class="thumbnail">
+                    <img src="{{ space.second_image.url }}" alt="Thumbnail 2" class="thumbnail-img">
+                </div>
+                {% endif %}
+                {% if space.third_image %}
+                <div class="thumbnail">
+                    <img src="{{ space.third_image.url }}" alt="Thumbnail 3" class="thumbnail-img">
+                </div>
+                {% endif %}
+                <div class="thumbnail">
+                    {% if space.fourth_image %}
+                        <img src="{{ space.fourth_image.url }}" alt="Thumbnail 4" class="thumbnail-img">
+                    {% if space.fifth_image or space.sixth_image %}
+                        <div class="more-photos">
+                            +{% if space.fifth_image and space.sixth_image %}2
+                            {% elif space.fifth_image or space.sixth_image %}1
+                            {% endif %} Photos
+                        </div>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-6 md:grid-cols-6 gap-4">
+        <!-- Features Section -->
+        <div class="md:col-span-4 space-y-6" >
+            <div class="relative bg-white rounded-xl shadow-md p-6" style="height: 380px;">
+
+                {% if user.is_superuser %}
+                <div class="absolute top-4 right-4 flex space-x-4">
+                    <a  href="{% url 'space:edit' space.id %}" class="group" title="Edit">
+                        <div class="border border-yellow-500 p-1 rounded-full group-hover:bg-yellow-500 group-hover:border-transparent transition duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-6 w-6 text-yellow-500 group-hover:text-white mx-auto">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                        </div>
+                    </a>
+    
+                    <form method="POST" action="{% url 'space:delete' space.id %}" onsubmit="return confirm('Are you sure you want to delete this space?');">
+                        {% csrf_token %}
+                        <button type="submit" class="group" title="Delete">
+                            <div class="border border-red-700 p-1 rounded-full group-hover:bg-red-700 group-hover:border-transparent transition duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-700 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </div>
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+                <div class="mb-6">
+                    <div style="display: flex; gap: 5px">
+                        <h1 class="text-3xl font-bold text-gray-800">{{ space.title }}</h1>
+                            {% if space.price == 0 %}
+                                <div style="display: flex; align-items: center; justify-content: center; background-color: #A1CC87; height: 25px; width: 80px; border-radius: 30px; margin-top: 4px; margin-left: 8px;">
+                                    <p class="text-xl" style="font-weight: bold; color: white; font-size: 12px;">Free</p>
+                            {% elif space.price == -1 %}
+                                <div style="display: flex; align-items: center; justify-content: center; background-color: #A1CC87; height: 25px; width: 100px; border-radius: 30px; margin-top: 4px; margin-left: 8px;">
+                                    <p class="text-xl" style="font-weight: bold; color: white; font-size: 12px;">Varies</p>
+                            {% else %}
+                                <div style="display: flex; align-items: center; justify-content: center; background-color: #A1CC87; height: 25px; width: 120px; border-radius: 30px; margin-top: 4px; margin-left: 8px;">
+                                    <p class="text-xl" style="font-weight: bold; color: white; font-size: 12px;">Php {{ space.price }}/hr</p>
+                            {% endif %}
+                                </div>
+                        
+                    </div>
+                    <p class="text-gray-600">{{ space.venue }}</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                    <div class="text-center p-4 rounded-lg {% if space.hasAirConditioner %}bg-gray-200{% else %}bg-gray-100{% endif %}">
+                        <div class="text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <span class="block mt-2 text-sm font-semibold">AC</span>
+                    </div>
+                    <div class="text-center p-4 rounded-lg {% if space.hasInternet %}bg-gray-200{% else %}bg-gray-100{% endif %}">
+                        <div class="text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.14 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
+                            </svg>
+                        </div>
+                        <span class="block mt-2 text-sm font-semibold">WiFi</span>
+                    </div>
+                    <div class="text-center p-4 rounded-lg {% if space.hasTelevision %}bg-gray-200{% else %}bg-gray-100{% endif %}">
+                        <div class="text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <span class="block mt-2 text-sm font-semibold">TV</span>
+                    </div>
+                    <div class="text-center p-4 rounded-lg bg-gray-200">
+                        <div class="text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </div>
+                        <span class="block mt-2 text-sm font-semibold">{{ space.seating_capacity }}</span>
+                    </div>
+                </div>
+    
+                {% if space.description %}
+                <div class="prose">
+                    <h3 class="text-lg font-bold mb-2">About This Space</h3>
+                    <p class="text-gray-700">{{ space.description }}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    
+        <!-- Booking Section -->
+        <div class="md:col-span-2">
+            <div class="bg-white rounded-xl shadow-md p-6" style="height: 380px;">
+                {% if user.is_superuser and space.managed_by == user %}
+                    <h3 class="text-lg font-bold mb-4">Current Bookings</h3>
+                    {% if pending_bookings.count == 0 and approved_bookings.count == 0%}
+                        <div class="space-y-4">
+                            <div class="flex items-center shadow-md rounded-lg p-4 bg-gray-100 border-l-4 border-gray-300">
+                                <div class="flex-grow">
+                                    <div class="text-gray-700 font-bold">None</div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="space-y-8">
+                            {% if pending_bookings.count != 0 %}
+                            <a href="{% url 'dashboard:my_bookings' %}">
+                                <div class="flex items-center mb-2 shadow-md rounded-lg p-4 bg-amber-100 border-l-4 border-amber-500 hover:bg-amber-200 transition duration-200">
+                                    <div class="flex-grow">
+                                        <div class="text-gray-700 font-bold">Pending Bookings: {{ pending_bookings.count }}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            {% endif %}
+                            {% if approved_bookings.count != 0 %}
+                            <a href="{% url 'dashboard:my_bookings' %}">
+                                <div class="flex items-center bg-white shadow-md rounded-lg p-4 bg-green-100 border-l-4 border-green-500">
+                                    <div class="flex-grow">
+                                        <div class="text-gray-700 font-bold">Approved Bookings: {{ approved_bookings.count }}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% else %}
+                    {% if user_booking %}
+                    <a href="{% url 'dashboard:index' %}">
+                        <div class="flex items-center p-4 shadow-md rounded-lg space-x-4
+                            {% if user_booking.status == 'pending' %} bg-amber-100 border-l-4 border-amber-500 hover:bg-amber-200 
+                            {% elif user_booking.status == 'approved' %} bg-green-100 border-l-4 border-green-500 hover:bg-green-200 
+                            {% elif user_booking.status == 'rejected' %} bg-red-100 border-l-4 border-red-500 hover:bg-red-200 
+                            {% endif %}">
+                            <div class="flex items-center space-x-3">
+                                {% if user_booking.status == 'pending' %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                {% elif user_booking.status == 'approved' %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                {% endif %}
+                                <div>
+                                    <div class="font-semibold text-gray-800">You have booked this space</div>
+                                    <div class="text-sm text-gray-600 capitalize">{{ user_booking.status }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    {% endif %}
+                {% endif %}
+        
+                {% if user_booking %}
+                    <div class="space-y-3 mt-3">
+                        <a href="{% url 'booking:calendar' space.id %}" class="block w-full">
+                            <button class="w-full bg-rose-700 text-white py-2.5 rounded-lg hover:bg-rose-800 transition duration-300 flex items-center justify-center space-x-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <span class="font-semibold">Book More</span>
+                            </button>
+                        </a>
+                        
+                        <a href="{% url 'conversation:new' space.id %}" class="block w-full">
+                            <button class="w-full bg-amber-500 text-white py-2.5 rounded-lg hover:bg-amber-600 transition duration-300 flex items-center justify-center space-x-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                                </svg>
+                                <span class="font-semibold">Contact Manager</span>
+                            </button>
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="space-y-3 mt-3">
+                        <h3 class="text-lg font-bold mb-4 text-gray-800">Book Space</h3>
+                        
+                        <a href="{% url 'booking:calendar' space.id %}" class="block w-full">
+                            <button class="w-full bg-rose-700 text-white py-2.5 rounded-lg hover:bg-rose-800 transition duration-300 flex items-center justify-center space-x-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <span class="font-semibold">Book</span>
+                            </button>
+                        </a>
+                        
+                        <a href="{% url 'conversation:new' space.id %}" class="block w-full">
+                            <button class="w-full bg-amber-500 text-white py-2.5 rounded-lg hover:bg-amber-600 transition duration-300 flex items-center justify-center space-x-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                                </svg>
+                                <span class="font-semibold">Contact Manager</span>
+                            </button>
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    const swiper = new Swiper('.swiper', {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+
+</script>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Spaces{% endblock %}
+
+{% load static %}
+{% block content %}
+<div class="pb-6 bg-gray-100 pt-[84px]">
+    <div class="container mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <!-- Sidebar -->
+            <div class="col-span-1 bg-white p-6 rounded-lg shadow-md">
+                <form id="search-form" method="GET" action="{% url 'space:spaces' %}" class="flex items-center space-x-2">
+                    <input id="search-input" name="query" type="text" value="{{ query }}" placeholder="Find a space..." class="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-red-800 flex-grow w-10">
+                    <button type="submit" class="rounded-lg bg-[#A81906] text-white" style="width: 35px; height: 35px;">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form>
+
+
+                <ul class="space-y-8" style="margin-top: 10px;">
+                    <button class="rounded-lg bg-gray-200" style="height: 35px; width:240px;">
+                        <a href="{% url 'space:spaces' %}">Clear</a>
+                    </button>
+                </ul>
+
+                <hr class="my-6">
+
+                <p class="font-semibold text-gray-700 mb-4">Categories</p>
+                <ul class="space-y-2">
+                    {% for category in categories %}
+                    <li>
+                        <a href="{% url 'space:spaces' %}?query={{ query }}&category={{ category.name }}" class="block py-2 rounded-lg px-2 {% if category.name == category_name %} bg-gray-200 {% endif %} hover:bg-gray-200 transition duration-200 rounded-lg">{{ category.name }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="col-span-3">
+                <p id="popular-spaces-heading" class="header" style="margin-top: 0;">Popular Spaces</p>
+                <div class="space-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {% for space in popular_spaces %}
+                    <div class="space-item bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-200">
+                        <a href="{% url 'space:detail' space.id %}">
+                            <img src="{{ space.main_image.url }}" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <h2 class="text-4lg font-semibold text-gray-800">{{ space.title }}</h2>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle category link clicks
+        const categoryLinks = document.querySelectorAll('a[href*="category="]');
+        
+        categoryLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const url = new URL(link.href);
+                fetchSpaces(url);
+            });
+        });
+
+        // Handle search form submission
+        const searchForm = document.getElementById('search-form');
+        searchForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            const query = document.getElementById('search-input').value;
+            const url = new URL(searchForm.action);
+            url.searchParams.set('query', query); // Set the query parameter
+            fetchSpaces(url);
+        });
+
+        function fetchSpaces(url) {
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const spaces = doc.querySelectorAll('.space-item');
+                    const heading = document.getElementById('popular-spaces-heading');
+                    heading.textContent = `${spaces.length} Spaces Found`;
+
+                    const spaceGrid = document.querySelector('.space-grid');
+                    spaceGrid.innerHTML = doc.querySelector('.space-grid').innerHTML;
+                })
+                .catch(error => console.error('Error fetching spaces:', error));
+        }
+    });
+</script>
+{% endblock %}

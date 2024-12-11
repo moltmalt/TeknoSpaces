@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-12 pt-[100px] flex gap-x-6">
+    <!-- Sidebar Section -->
+    {% include 'dashboard/sidebar.html' %}
+
+    
+    <!-- Main Content Section -->
+    <div class="w-3/4">
+        <div class="flex space-x-1 mt-10 border-b pb-1">
+                <a href="{% url 'dashboard:index' %}" class="group px-4 py-3 text-gray-500 hover:text-red-600 transition-all duration-300 ease-in-out relative flex items-center justify-center">
+                    <span class="absolute inset-x-0 bottom-0 h-0.5 bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center 
+                    {% if request.path == index %} scale-x-100 {% endif %}"></span>
+                    <i class="fas fa-th-large mr-2 group-hover:text-red-600 transition-colors 
+                    {% if request.path == index %} text-red-600 {% endif %}"></i>
+                    <span class="group-hover:text-red-600 transition-colors 
+                    {% if request.path == index %} text-red-600 {% endif %}">My Spaces</span>
+                </a>
+
+            {% if user.is_superuser %}
+                <a href="{% url 'dashboard:my_bookings' %}" class="group px-4 py-3 text-gray-500 hover:text-red-600 transition-all duration-300 ease-in-out relative flex items-center justify-center">
+                    <span class="absolute inset-x-0 bottom-0 h-0.5 bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center 
+                    {% if request.path == my_bookings %} scale-x-100 {% endif %}"></span>
+                    <i class="fas fa-calendar-alt mr-2 group-hover:text-red-600 transition-colors 
+                    {% if request.path == my_bookings %} text-red-600 {% endif %}"></i>
+                    <span class="group-hover:text-red-600 transition-colors 
+                    {% if request.path == my_bookings %} text-red-600 {% endif %}">My Bookings</span>
+                </a>
+                
+                <a href="{% url 'dashboard:my_users' %}" class="group px-4 py-3 text-gray-500 hover:text-red-600 transition-all duration-300 ease-in-out relative flex items-center justify-center">
+                    <span class="absolute inset-x-0 bottom-0 h-0.5 bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center 
+                    {% if request.path == my_users %} scale-x-100 {% endif %}"></span>
+                    <i class="fas fa-users mr-2 group-hover:text-red-600 transition-colors 
+                    {% if request.path == my_users %} text-red-600 {% endif %}"></i>
+                    <span class="group-hover:text-red-600 transition-colors 
+                    {% if request.path == my_users %} text-red-600 {% endif %}">My Users</span>
+                </a>
+                {% endif %}
+
+                <a href="{% url 'dashboard:my_notifications' %}" class="group px-4 py-3 text-gray-500 hover:text-red-600 transition-all duration-300 ease-in-out relative flex items-center justify-center">
+                    <span class="absolute inset-x-0 bottom-0 h-0.5 bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center"></span>
+                    <i class="fas fa-bell group-hover:text-red-600 transition-colors"></i>
+                    <span class="group-hover:text-red-600 transition-colors ml-2"> My Notifications</span>
+                </a>
+        </div>
+
+        <!-- Dynamic Content Section -->
+        <div class="content">
+            {% include 'notifications/my_notifications.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

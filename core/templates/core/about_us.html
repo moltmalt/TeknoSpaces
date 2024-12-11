@@ -1,0 +1,54 @@
+{% extends 'core/base.html' %}
+
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<div class="section pt-[120px]" style=" display: flex; flex-direction: column; align-items: center;">
+    <div style="display: flex; justify-content: center;">
+        <img src="{% static 'core/images/logo-2.svg' %}" alt="Logo" style="height: 120px; transition: transform 0.3s, box-shadow 0.3s;">
+    </div>
+    
+    <div style="display: flex; justify-content: center; margin-top: 20px;">
+        <h1 style="font-size: 36px; text-align: center; transition: color 0.3s;">Your Space, Our Technology</h1>
+    </div>
+    
+    <div style="padding: 50px; font-size: 18px; text-align: justify; max-width: 800px;">
+        <p><strong>TeknoSpaces</strong> is a comprehensive online booking platform tailored exclusively for CIT-U students and faculty. Designed with the needs of our academic community in mind, TeknoSpaces streamlines the process of reserving classrooms, conference rooms, study areas, and other essential facilities on campus. 
+        <br><br>
+        With TeknoSpaces, the hassle of coordinating schedules and securing the right space is a thing of the past. Our intuitive platform allows you to effortlessly browse available facilities, choose your preferred time slots, and confirm your reservations—all in just a few clicks. You’ll receive instant notifications for booking confirmations, reminders as your reservation approaches, and alerts for any updates or changes to your bookings. 
+        <br><br>
+        Our system is built to ensure that all reservations are managed efficiently, presenting a clear, organized schedule that adapts to your academic and professional demands. Whether you’re planning a study session, a group meeting, or a special event, TeknoSpaces offers a reliable solution that allows you to focus on what truly matters—your learning, teaching, and collaboration efforts. 
+        <br><br>
+        Join the TeknoSpaces community and contribute to a more efficient, organized, and productive environment at CIT-U. Together, let’s create spaces that foster growth, innovation, and success for everyone on campus. 
+        <br><br>
+        <span style="font-style: italic;">by Arcelyn, Malt, & Paul</span>
+        </p>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const logo = document.querySelector('img[alt="Logo"]');
+        const heading = document.querySelector('h1');
+
+        logo.addEventListener('mouseover', function() {
+            this.style.transform = 'scale(1.1)';
+            this.style.boxShadow = '0 0 20px rgba(255, 255, 255, 0.8)';
+        });
+        logo.addEventListener('mouseout', function() {
+            this.style.transform = 'scale(1)';
+            this.style.boxShadow = 'none';
+        });
+
+        heading.addEventListener('mouseover', function() {
+            this.style.color = '#7F1C1D';
+        });
+        heading.addEventListener('mouseout', function() {
+            this.style.color = '';
+        });
+    });
+</script>
+
+{% endblock %}

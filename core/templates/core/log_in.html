@@ -1,0 +1,54 @@
+{% extends 'core/base_no_footer.html' %}
+{% load static %}
+{% block title %}Log In{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto mt-24 bg-white rounded-xl shadow-lg">
+    <div class="flex items-center justify-center bg-[#A81906] rounded-t-xl h-20">
+        <img src="{% static 'core/images/logo-1.png' %}" alt="logo" class="h-12">
+        <p class="ml-4 text-white text-lg font-bold"></p>
+    </div>
+
+    <div class="p-8">
+        <form method="post" action=".">
+            {% csrf_token %}
+
+            <div class="mb-6">
+                <label for="id_username" class="block mb-2 text-red-800 font-semibold">Username</label>
+                <div class="relative">
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <span class="absolute text-red-800 text-sm mt-1">{{ form.username.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <label for="id_password" class="block mb-2 text-red-800 font-semibold">Password</label>
+                <div class="relative">
+                    {{ form.password }}
+                    {% if form.password.errors %}
+                        <span class="absolute text-red-800 text-sm mt-1">{{ form.password.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if form.errors or form.non_field_errors %}
+                <div class="mb-4 p-4 bg-red-100 text-red-800 rounded-lg">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <button class="w-full py-3 text-lg bg-red-800 hover:bg-red-700 rounded-lg text-white transition duration-200" type="submit" style="font-weight: bold;">Log In</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

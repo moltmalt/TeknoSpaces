@@ -1,0 +1,218 @@
+{% block content %}
+<div class="container mx-auto px-4 py-6">
+    {% if user.is_superuser %}
+        <div class="flex justify-between items-center pb-4 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                Managed Spaces
+            </h2>
+            <a href="{% url 'space:add' %}" class="flex items-center px-3 py-1.5 bg-gray-100 text-gray-800 rounded-md hover:bg-gray-200 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+                Add Space
+            </a>
+        </div>
+    {% else %}
+        <h2 class="text-xl font-bold text-gray-900 border-b pb-4 mb-6">Booked Spaces</h2>
+    {% endif %}
+
+    <div class="space-y-8">
+        {% if user.is_superuser %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {% for space in admin_spaces %}
+                    <div class="bg-white rounded-lg shadow-sm border">
+                        <a href="{% url 'space:detail' space.id %}" class="block">
+                            <img src="{{ space.main_image.url }}" class="w-full h-40 object-cover rounded-t-lg" alt="space image">
+                            <div class="p-3">
+                                <h3 class="text-base font-semibold text-gray-800">{{ space.title }}</h3>
+                            </div>
+                        </a>
+                    </div>
+                {% empty %}
+                    <div class="md:col-span-2 lg:col-span-3 text-center py-12 bg-gray-50 rounded-lg">
+                        <div class="mb-4 flex justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-base font-medium text-gray-900 mb-2">No spaces yet</h3>
+                        <p class="text-sm text-gray-600">When you manage spaces, they'll appear here.</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- Pending Spaces -->
+            <section class="space-y-6">
+                <div>
+                    <h3 class="text-base font-semibold text-gray-800 mb-4 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Pending
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {% for booking in pending_bookings %}
+                            <div class="bg-white rounded-lg shadow-sm border">
+                                <a href="{% url 'space:detail' booking.space.id %}" class="block">
+                                    <img src="{{ booking.space.main_image.url }}" class="w-full h-40 object-cover rounded-t-lg" alt="space image">
+                                    <div class="p-3">
+                                        <h4 class="text-base font-semibold text-gray-800">{{ booking.space.title }}</h4>
+                                        <div class="mt-2 flex items-center space-x-2 text-xs text-gray-600">
+                                            <div class="bg-yellow-50 px-2 py-0.5 rounded-full border border-yellow-100">
+                                                <span class="font-medium">{{ booking.date }}</span>
+                                            </div>
+                                            <div class="bg-gray-50 px-2 py-0.5 rounded-full border border-gray-100">
+                                                <span>{{ booking.start_time }} - {{ booking.end_time }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% empty %}
+                            <div class="md:col-span-2 lg:col-span-3 text-center py-12 bg-gray-50 rounded-lg">
+                                <div class="mb-4 flex justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-2v8m0 0l3-3m-3 3L9 8m-5 5h14a2 2 0 002-2V7a2 2 0 00-2-2H4a2 2 0 00-2 2v9a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-base font-medium text-gray-900 mb-2">No pending spaces</h3>
+                                <p class="text-sm text-gray-600">When you book spaces, pending bookings will appear here.</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+    
+                <!-- Approved Spaces -->
+                <div>
+                    <h3 class="text-base font-semibold text-gray-800 mb-4 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Approved
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {% for booking in approved_bookings %}
+                            <div class="bg-white rounded-lg shadow-sm border">
+                                <a href="{% url 'space:detail' booking.space.id %}" class="block">
+                                    <img src="{{ booking.space.main_image.url }}" class="w-full h-40 object-cover rounded-t-lg" alt="space image">
+                                    <div class="p-3">
+                                        <h4 class="text-base font-semibold text-gray-800">{{ booking.space.title }}</h4>
+                                        <div class="mt-2 flex items-center space-x-2 text-xs text-gray-600">
+                                            <div class="bg-green-50 px-2 py-0.5 rounded-full border border-green-100">
+                                                <span class="font-medium">{{ booking.date }}</span>
+                                            </div>
+                                            <div class="bg-gray-50 px-2 py-0.5 rounded-full border border-gray-100">
+                                                <span>{{ booking.start_time }} - {{ booking.end_time }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <form method="post" action="{% url 'dashboard:archive' booking.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="mt-2 w-full text-center text-sm text-gray-800 bg-gray-200 hover:bg-gray-300 rounded-b-lg py-2">
+                                        Archive
+                                    </button>
+                                </form>
+                            </div>
+                        {% empty %}
+                            <div class="md:col-span-2 lg:col-span-3 text-center py-12 bg-gray-50 rounded-lg">
+                                <div class="mb-4 flex justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-base font-medium text-gray-900 mb-2">No approved spaces</h3>
+                                <p class="text-sm text-gray-600">When your bookings are approved, they'll appear here.</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+    
+                <!-- Rejected Spaces -->
+                <div>
+                    <h3 class="text-base font-semibold text-gray-800 mb-4 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Rejected
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {% for booking in rejected_bookings %}
+                            <div class="bg-white rounded-lg shadow-sm border opacity-70">
+                                <a href="{% url 'space:detail' booking.space.id %}" class="block">
+                                    <img src="{{ booking.space.main_image.url }}" class="w-full h-40 object-cover rounded-t-lg grayscale" alt="space image">
+                                    <div class="p-3">
+                                        <h4 class="text-base font-semibold text-gray-800">{{ booking.space.title }}</h4>
+                                        <div class="mt-2 flex items-center space-x-2 text-xs text-gray-600">
+                                            <div class="bg-red-50 px-2 py-0.5 rounded-full border border-red-100">
+                                                <span class="font-medium">{{ booking.date }}</span>
+                                            </div>
+                                            <div class="bg-gray-50 px-2 py-0.5 rounded-full border border-gray-100">
+                                                <span>{{ booking.start_time }} - {{ booking.end_time }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% empty %}
+                            <div class="md:col-span-2 lg:col-span-3 text-center py-12 bg-gray-50 rounded-lg">
+                                <div class="mb-4 flex justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-base font-medium text-gray-900 mb-2">No rejected spaces</h3>
+                                <p class="text-sm text-gray-600">When your bookings are rejected, they'll appear here.</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                 <!-- Archived Spaces -->
+                <div>
+                    <h3 class="text-base font-semibold text-gray-800 mb-4 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12v8m0-8H8m4 0h4m-4 0V8m0 4l-4-4m4 4l4-4" />
+                        </svg>
+                        Archived
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {% for booking in archived_bookings %}
+                            <div class="bg-white rounded-lg shadow-sm border opacity-70">
+                                <a href="{% url 'space:detail' booking.space.id %}" class="block">
+                                    <img src="{{ booking.space.main_image.url }}" class="w-full h-40 object-cover rounded-t-lg grayscale" alt="space image">
+                                    <div class="p-3">
+                                        <h4 class="text-base font-semibold text-gray-800">{{ booking.space.title }}</h4>
+                                        <div class="mt-2 flex items-center space-x-2 text-xs text-gray-600">
+                                            <div class="bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100">
+                                                <span class="font-medium">{{ booking.date }}</span>
+                                            </div>
+                                            <div class="bg-gray-50 px-2 py-0.5 rounded-full border border-gray-100">
+                                                <span>{{ booking.start_time }} - {{ booking.end_time }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% empty %}
+                            <div class="md:col-span-2 lg:col-span-3 text-center py-12 bg-gray-50 rounded-lg">
+                                <div class="mb-4 flex justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 12v8m0-8H8m4 0h4m-4 0V8m0 4l-4-4m4 4l4-4" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-base font-medium text-gray-900 mb-2">No archived spaces</h3>
+                                <p class="text-sm text-gray-600">When your bookings are archived, they'll appear here.</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </section>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

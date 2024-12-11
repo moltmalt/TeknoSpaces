@@ -1,0 +1,182 @@
+{% extends 'core/base_no_footer.html' %}
+
+{% block title %}Edit Booking{% endblock %}
+
+{% block content %}
+<div class="flex justify-center items-center min-h-screen px-4 sm:px-6 lg:px-8" style="padding-top: 4vh; padding-bottom: 10vh;">
+    <div class="w-full max-w-2xl relative">
+        <div class="bg-white shadow-2xl rounded-2xl overflow-hidden flex flex-col h-full">
+            <!-- Header Section -->
+            <div class="bg-red-800 p-6">
+                <h2 class="text-3xl font-extrabold text-white text-center flex items-center justify-center gap-4">
+                    Edit Booking
+                </h2>
+                <p class="text-center text-red-100 mt-2">Update booking details</p>
+            </div>
+            <form method="post" action="{% url 'dashboard:edit_booking' booking.id %}" enctype="multipart/form-data" class="bg-white shadow-xl rounded-lg overflow-hidden flex-grow flex flex-col">
+                {% csrf_token %}
+                <div class="flex-grow overflow-y-auto p-8 space-y-8" style="max-height: calc(100vh - 20vh);">
+                    <!-- Booking Details Section -->
+                    <div>
+                        <div class="flex items-center space-x-4 border-b border-gray-300 pb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <h3 class="text-xl font-semibold text-gray-900">Booking Details</h3>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-2">
+                            <!-- User Dropdown -->
+                            <div class="relative">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ form.user.label_tag }}</label>
+                                <div class="relative">
+                                    {{ form.user }}
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Space Dropdown -->
+                            <div class="relative">
+                                <label class="block text-sm text-gray-700 mb-2">{{ form.space.label_tag }}</label>
+                                <div class="relative">
+                                    {{ form.space }}
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Date Picker -->
+                            <div class="relative">
+                                <label class="block text-sm text-gray-700 mb-2">{{ form.date.label_tag }}</label>
+                                <div class="relative">
+                                    <input 
+                                        type="date" 
+                                        name="{{ form.date.name }}" 
+                                        value="{{ form.date.value|date:'Y-m-d' }}" 
+                                        class="block w-full pt-2 pl-2 text-gray-900 border border-gray-300 rounded-md shadow-sm 
+                                               focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500 
+                                               transition duration-300 ease-in-out"
+                                    >
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Start and End Time -->
+                            <div class="grid md:grid-cols-2 gap-2 col-span-2">
+                                <div class="relative">
+                                    <label class="block text-sm text-gray-700 mb-2">{{ form.start_time.label_tag }}</label>
+                                    <div class="relative">
+                                        <input 
+                                            type="time" 
+                                            name="{{ form.start_time.name }}" 
+                                            value="{{ form.start_time.value|date:'H:i' }}" 
+                                            class="block w-full pt-2 pl-2 text-gray-900 border border-gray-300 rounded-md shadow-sm 
+                                                   focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500 
+                                                   transition duration-300 ease-in-out"
+                                        >
+                                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="relative">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">{{ form.end_time.label_tag }}</label>
+                                    <div class="relative">
+                                        <input 
+                                            type="time" 
+                                            name="{{ form.end_time.name }}" 
+                                            value="{{ form.end_time.value|date:'H:i' }}" 
+                                            class="block w-full pt-2 pl-2 text-gray-900 border border-gray-300 rounded-md shadow-sm 
+                                                   focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500 
+                                                   transition duration-300 ease-in-out"
+                                        >
+                                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Request Letter Section -->
+                    <div>
+                        <div>
+                            <label class="block text-sm text-gray-700 mb-2">{{ form.request_letter.label_tag }}</label>
+                            <div class="relative">
+                                {{ form.request_letter }}
+                        </div>
+
+                        <label class="block text-sm text-gray-700 mb-2 mt-4">{{ form.status.label_tag }}</label>
+                                <div class="relative">
+                                    {{ form.status }}
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </div>
+                    </div>
+                </div>
+
+                {% if messages %}
+                    <div class="w-full space-y-2">
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} p-4 rounded-lg shadow-md text-white">
+                                <!-- Success message -->
+                                {% if message.tags == "success" %}
+                                    <div class="bg-green-500 border border-green-600">
+                                        <div class="flex items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                            </svg>
+                                            <p>{{ message }}</p>
+                                        </div>
+                                    </div>
+                                <!-- Error message -->
+                                {% elif message.tags == "error" %}
+                                    <div class="bg-red-500 border border-red-600">
+                                        <div class="flex items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                            <p>{{ message }}</p>
+                                        </div>
+                                    </div>
+                                <!-- Warning message -->
+                                {% elif message.tags == "warning" %}
+                                    <div class="bg-yellow-500 border border-yellow-600">
+                                        <div class="flex items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M5.22 4.22l13.56 13.56" />
+                                            </svg>
+                                            <p>{{ message }}</p>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <!-- Submit Button -->
+                <div class="z-[999999] bg-gray-50 px-4 py-3 text-right sm:px-6 sticky bottom-0">
+                    <button type="submit" class=" w-full py-3 text-lg font-semibold text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-300 ease-in-out">
+                        Update Booking
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

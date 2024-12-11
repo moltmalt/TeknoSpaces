@@ -1,0 +1,54 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+
+<div style="display: flex; flex-direction: column; align-items: center; background-color: #A81906; width: 100%; height: 330px;" class="pt-[84px]">
+    <h1 style="font-weight: bolder; font-size: 95px; color: white; text-shadow: 2px 2px 4px #000000;">GET IN TOUCH</h1>
+    <p style="font-weight: 600; font-size: 30px; color: white;">Our team would like to hear from you</p>
+
+    <div style="display:flex; flex-direction:row; align-items:center; justify-content:center; gap: 40px; margin-top: 30px;">
+        <div style="display: flex;flex-direction: column; align-items: center; width: 600px; height: 200px; background-color: white; border-radius: 30px; padding: 2px; box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);">
+            <div style="display: flex; align-items: center; justify-content: center; background-color: #A81906; width: 100%; height: 80px; border-radius: 30px; margin-bottom: 25px;">
+                <span style="font-size: 50px;">&#128242;</span>
+            </div>
+            <p>Contact Sales</p>
+            <p id="phone-number" style="color: #3E74A8; cursor: pointer; transition: color 0.3s, text-shadow 0.3s;" 
+               onclick="copyToClipboard('09123456789')" onmouseover="this.style.color='#A81906'; this.style.textShadow='2px 2px 5px rgba(0, 0, 0, 0.3)';" 
+               onmouseout="this.style.color='#3E74A8'; this.style.textShadow='none';">09123456789</p>
+            <span id="copy-message" style="color: green; display: none;">Copied!</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; width: 600px; height: 200px; background-color: white; border-radius: 30px; padding: 2px; box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);">
+            <div style="display: flex; align-items: center; justify-content: center; background-color: #A81906; width: 100%; height: 80px; border-radius: 30px; margin-bottom: 25px;">
+                <span style="font-size: 50px;">&#128232;</span>
+            </div>
+            <p>Contact Customer Support</p>
+            <p id="email-address" style="color: #3E74A8; cursor: pointer; transition: color 0.3s, text-shadow 0.3s;">
+                <a href="mailto:teknospaces@cit.edu" style="color: inherit; text-decoration: none;"
+                   onmouseover="this.style.color='#7F1C1D'; this.style.textShadow='2px 2px 5px rgba(0, 0, 0, 0.3)';" 
+                   onmouseout="this.style.color='inherit'; this.style.textShadow='none';">teknospaces@cit.edu</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div style="margin-bottom: 300px;">
+
+</div>
+
+<script>
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(function() {
+            var copyMessage = document.getElementById('copy-message');
+            copyMessage.style.display = 'inline';
+            setTimeout(function() {
+                copyMessage.style.display = 'none';
+            }, 2000);
+        }, function(err) {
+            console.error('Async: Could not copy text: ', err);
+        });
+    }
+</script>
+
+{% endblock %}

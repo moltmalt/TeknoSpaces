@@ -1,0 +1,185 @@
+<form method="post" action="{% url 'dashboard:edit_booking' booking.id %}" enctype="multipart/form-data" class="bg-white shadow-xl rounded-lg overflow-hidden">
+    {% csrf_token %}
+    <div class="p-8 space-y-8 overflow-y-auto max-h-[calc(100vh-200px)]">
+        <!-- Booking Details Section -->
+        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 shadow-sm">
+            <div class="flex items-center space-x-4 border-b border-gray-300 pb-4 mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h3 class="text-2xl font-bold text-gray-900">Booking Details</h3>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- User Dropdown -->
+                <div class="relative">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">{{ form.user.label_tag }}</label>
+                    <div class="relative">
+                        {{ form.user }}
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Space Dropdown -->
+                <div class="relative">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">{{ form.space.label_tag }}</label>
+                    <div class="relative">
+                        {{ form.space }}
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Date Picker -->
+                <div class="relative">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">{{ form.date.label_tag }}</label>
+                    <div class="relative">
+                        <input 
+                            type="date" 
+                            name="{{ form.date.name }}" 
+                            value="{{ form.date.value|date:'Y-m-d' }}" 
+                            class="block w-full px-4 py-2.5 text-gray-900 border border-gray-300 rounded-md shadow-sm 
+                                   focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 
+                                   transition duration-300 ease-in-out"
+                        >
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Start and End Time -->
+                <div class="grid md:grid-cols-2 gap-6 col-span-2">
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">{{ form.start_time.label_tag }}</label>
+                        <div class="relative">
+                            <input 
+                                type="time" 
+                                name="{{ form.start_time.name }}" 
+                                value="{{ form.start_time.value|date:'H:i' }}" 
+                                class="block w-full px-4 py-2.5 text-gray-900 border border-gray-300 rounded-md shadow-sm 
+                                       focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 
+                                       transition duration-300 ease-in-out"
+                            >
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">{{ form.end_time.label_tag }}</label>
+                        <div class="relative">
+                            <input 
+                                type="time" 
+                                name="{{ form.end_time.name }}" 
+                                value="{{ form.end_time.value|date:'H:i' }}" 
+                                class="block w-full px-4 py-2.5 text-gray-900 border border-gray-300 rounded-md shadow-sm 
+                                       focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 
+                                       transition duration-300 ease-in-out"
+                            >
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Information Section -->
+        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 shadow-sm">
+            <div class="flex items-center space-x-4 border-b border-gray-300 pb-4 mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h3 class="text-2xl font-bold text-gray-900">Additional Information</h3>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- File Input -->
+                <div class="relative">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">{{ form.request_letter.label_tag }}</label>
+                    <div class="flex items-center">
+                        <label class="w-full relative">
+                            <input 
+                                type="file" 
+                                name="{{ form.request_letter.name }}" 
+                                id="id_request_letter" 
+                                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                onchange="document.getElementById('file_name').textContent = this.files[0] ? this.files[0].name : 'No file chosen'"
+                            >
+                            <div class="flex items-center px-4 py-2.5 text-gray-900 border border-gray-300 rounded-md shadow-sm 
+                                        bg-white hover:bg-gray-50 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 
+                                        transition duration-300 ease-in-out">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                                </svg>
+                                <span id="file_name" class="truncate">{{ form.request_letter.value|default:'Choose a file' }}</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Status Dropdown -->
+                <div class="relative">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">{{ form.status.label_tag }}</label>
+                    <div class="relative">
+                        {{ form.status }}
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if form.errors %}
+        <div class="pt-4">
+            <div class="flex items-center text-red-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                <p>Please correct the errors below and resubmit the form:</p>
+            </div>
+            <ul class="mt-2 text-red-600 space-y-1 list-disc list-inside">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ field.label }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    
+    <!-- Submit Button -->
+    <div class="px-8 py-6 bg-gray-100 border-t border-gray-200 flex justify-end">
+        <button 
+            type="submit" 
+            class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-semibold rounded-md 
+                   text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 
+                   focus:ring-offset-2 focus:ring-indigo-500 transition duration-300 ease-in-out 
+                   shadow-md hover:shadow-lg">
+            Save Changes
+        </button>
+    </div>
+</form>

@@ -1,0 +1,151 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-12 pt-[100px] flex gap-x-6">
+    <!-- Sidebar Section -->
+    {% include 'dashboard/sidebar.html' %}
+
+    <!-- Main Content Section -->
+    <div class="w-3/4">
+        <div class="flex space-x-1 mt-10 border-b pb-1">
+                <a href="{% url 'dashboard:index' %}" class="group px-4 py-3 text-gray-500 hover:text-red-600 transition-all duration-300 ease-in-out relative flex items-center justify-center">
+                    <span class="absolute inset-x-0 bottom-0 h-0.5 bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center 
+                    {% if request.path == index %} scale-x-100 {% endif %}"></span>
+                    <i class="fas fa-th-large mr-2 group-hover:text-red-600 transition-colors 
+                    {% if request.path == index %} text-red-600 {% endif %}"></i>
+                    <span class="group-hover:text-red-600 transition-colors 
+                    {% if request.path == index %} text-red-600 {% endif %}">My Spaces</span>
+                </a>
+
+            {% if user.is_superuser %}
+                <a href="{% url 'dashboard:my_bookings' %}" class="group px-4 py-3 text-gray-500 hover:text-red-600 transition-all duration-300 ease-in-out relative flex items-center justify-center">
+                    <span class="absolute inset-x-0 bottom-0 h-0.5 bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center 
+                    {% if request.path == my_bookings %} scale-x-100 {% endif %}"></span>
+                    <i class="fas fa-calendar-alt mr-2 group-hover:text-red-600 transition-colors 
+                    {% if request.path == my_bookings %} text-red-600 {% endif %}"></i>
+                    <span class="group-hover:text-red-600 transition-colors 
+                    {% if request.path == my_bookings %} text-red-600 {% endif %}">My Bookings</span>
+                </a>
+                
+                <a href="{% url 'dashboard:my_users' %}" class="group px-4 py-3 text-gray-500 hover:text-red-600 transition-all duration-300 ease-in-out relative flex items-center justify-center">
+                    <span class="absolute inset-x-0 bottom-0 h-0.5 bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center 
+                    {% if request.path == my_users %} scale-x-100 {% endif %}"></span>
+                    <i class="fas fa-users mr-2 group-hover:text-red-600 transition-colors 
+                    {% if request.path == my_users %} text-red-600 {% endif %}"></i>
+                    <span class="group-hover:text-red-600 transition-colors 
+                    {% if request.path == my_users %} text-red-600 {% endif %}">My Users</span>
+                </a>
+                {% endif %}
+
+                <a href="{% url 'dashboard:my_notifications' %}" class="group px-4 py-3 text-gray-500 hover:text-red-600 transition-all duration-300 ease-in-out relative flex items-center justify-center">
+                    <span class="absolute inset-x-0 bottom-0 h-0.5 bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center"></span>
+                    <i class="fas fa-bell group-hover:text-red-600 transition-colors"></i>
+                    <span class="group-hover:text-red-600 transition-colors ml-2"> My Notifications</span>
+                </a>
+        </div>
+
+        <!-- Dynamic Content Section -->
+        <div class="content">
+            <div class="container py-6 max-w-4xl">
+                <div class="rounded-xl">
+                  <div class="mb-4">
+                    <h1 class="text-xl font-bold text-gray-900 flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                      </svg>
+                      Notifications
+                    </h1>
+                  </div>
+              
+                  {% if notifications %}
+                    <ul>
+                      {% for notification in notifications %}
+                        <li class="py-5 border-b border-gray-300 
+                          {% if not notification.is_read %}bg-red-50/50 border-l-4 border-red-500{% endif %}">
+                          <div class="flex space-x-4">
+                            {% if not notification.is_read %}
+                              <div class="flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600" viewBox="0 0 20 20" fill="currentColor">
+                                  <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                                </svg>
+                              </div>
+                            {% else %}
+                              <div class="flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zM17 11a1 1 0 00-1-1h-1a1 1 0 100 2h1a1 1 0 001-1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                                </svg>
+                              </div>
+                            {% endif %}
+                    
+                            <div class="flex-1 min-w-0">
+                              <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs text-gray-500 tracking-wider uppercase">
+                                  {{ notification.timestamp|date:"F j, Y, g:i a" }}
+                                </span>
+                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                                  {{ notification.get_notification_type_display }}
+                                </span>
+                              </div>
+                    
+                              <p class="text-sm {% if not notification.is_read %}font-semibold text-gray-900{% else %}text-gray-600{% endif %}">
+                                {{ notification.message }}
+                              </p>
+                    
+                              <div class="mt-3 flex space-x-3">
+                                {% if not notification.is_read %}
+                                  <form method="POST" action="{% url 'notifications:my_notifications' %}" class="w-full">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="notification_id" value="{{ notification.id }}">
+                                    <input type="hidden" name="action" value="mark_read">
+                                    <button type="submit" class="w-full py-2 px-4 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition duration-200 border border-red-200 hover:border-red-300">
+                                      Mark as Read
+                                    </button>
+                                  </form>
+                                  <a href="{{notification.link}}" class="w-full">
+                                    <button type="button" class="w-full py-2 px-4 text-sm font-semibold bg-red-600 text-white hover:bg-red-700 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                                      Visit Notification
+                                    </button>
+                                  </a>
+                                {% else %}
+                                  <a href="{{notification.link}}" class="w-full">
+                                    <button type="button" class="w-full py-2 px-4 text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
+                                      Visit Notification
+                                    </button>
+                                  </a>
+                                {% endif %}
+                    
+                                <!-- Delete button with garbage icon -->
+                                <form method="POST" action="{% url 'notifications:delete_notification' %}" class="w-auto">
+                                  {% csrf_token %}
+                                  <input type="hidden" name="notification_id" value="{{ notification.id }}">
+                                  <button type="submit" class="w-8 h-8 flex items-center justify-center text-white bg-gray-500 hover:bg-gray-600 rounded-full transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                                    <i class="fa fa-trash"></i> <!-- Font Awesome garbage icon -->
+                                  </button>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  {% else %}
+                    <div class="text-left py-12 px-6">
+                      <svg class="h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                      </svg>
+                      <p class="text-lg text-gray-500 font-medium">
+                        You have no notifications at the moment.
+                      </p>
+                      <p class="mt-2 text-sm text-gray-400">
+                        Check back later for updates.
+                      </p>
+                    </div>
+                  {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

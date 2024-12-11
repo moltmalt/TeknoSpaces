@@ -1,0 +1,56 @@
+.red-button{
+    background-color: #A81906;
+    border-radius: 30px;
+    color: white;
+    font-weight: bold;
+}
+
+.yellow-button{
+    background-color: #FFA500;
+    border-radius: 30px;
+    color: white;
+    font-weight: bold;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    color: #7F1C1D !important;
+}
+
+.swiper-pagination-bullet-active {
+    background: #7F1C1D !important;
+}
+
+.thumbnail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.thumbnail {
+    position: relative;
+    padding-bottom: 100%;
+    cursor: pointer;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.thumbnail img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.more-photos {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+}

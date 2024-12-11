@@ -1,0 +1,4 @@
+TO DO:
+
+    - create date_created (done)
+    - create book_count (done)
